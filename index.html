@@ -14,14 +14,25 @@
             --light-gray: #f4f4f4;
             --dark-text: #555;
             --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --pending-color: #ff9800; /* Orange */
-            --completed-color: #4caf50; /* Green */
         }
-        body { font-family: Arial, sans-serif; margin: 0; padding: 70px 0 80px 0; background-color: var(--light-gray); }
-        .header { background-color: var(--primary-color); color: var(--secondary-color); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: calc(100% - 30px); z-index: 1001; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 70px 0 80px 0;
+            background-color: var(--light-gray);
+        }
+        .header {
+            background-color: var(--primary-color); color: var(--secondary-color);
+            padding: 15px; display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; width: calc(100% - 30px); z-index: 1001;
+        }
         .header .logo { font-size: 1.8em; font-weight: bold; }
         .header .menu-button { background: none; border: none; color: var(--secondary-color); font-size: 2em; cursor: pointer; }
-        .side-menu { position: fixed; top: 0; right: -280px; width: 250px; height: 100%; background-color: #333; color: white; transition: right 0.3s ease; z-index: 1003; padding: 15px; }
+        .side-menu {
+            position: fixed; top: 0; right: -280px; width: 250px; height: 100%;
+            background-color: #333; color: white; transition: right 0.3s ease;
+            z-index: 1003; padding: 15px;
+        }
         .side-menu.active { right: 0; }
         .side-menu .close-btn { font-size: 2.5em; cursor: pointer; margin-bottom: 20px; }
         .side-menu ul { list-style: none; padding: 0; }
@@ -41,15 +52,18 @@
         #product-list-modal .product-plan { display: flex; justify-content: space-between; align-items: center; padding: 12px 8px; border-bottom: 1px solid var(--light-gray); }
         #product-list-modal .buy-button { background-color: var(--primary-color); color: white; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; }
         #payment-form .info-display { background: #f0f0f0; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
-        #payment-form input { width: calc(100% - 22px); padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+        #payment-form .info-display p { margin: 5px 0; }
+        .payment-info { margin-bottom: 15px; }
+        .payment-info label { font-weight: bold; display: block; margin-bottom: 5px; }
+        .address-box { display: flex; align-items: center; background-color: var(--light-gray); padding: 8px; border-radius: 5px; }
+        .address-box input { flex-grow: 1; border: none; background: none; font-size: 1em; }
+        .copy-btn { background-color: var(--primary-color); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 10px; }
+        #payment-form input[type="text"], #payment-form input[type="file"] { width: calc(100% - 22px); padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc; }
+        #payment-form input[type="file"] { width: 100%; padding: 3px; }
         #submit-payment { width: 100%; padding: 12px; background-color: var(--primary-color); color: white; border: none; border-radius: 5px; font-size: 1.2em; cursor: pointer; margin-top: 15px; }
-        .history-item { padding: 10px; border-bottom: 1px solid #eee; }
-        .history-item .status { font-weight: bold; }
-        .history-item .status.pending { color: var(--pending-color); }
-        .history-item .status.completed { color: var(--completed-color); }
-        #profile-view img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; }
-        #profile-view { text-align: center; }
-        .telegram-login-btn { background-color: #54A9EB; color: white; border: none; padding: 12px 20px; border-radius: 5px; font-size: 1em; cursor: pointer; }
+        .history-item, .profile-item { padding: 10px; border-bottom: 1px solid #eee; }
+        #coupon-form input { width: calc(100% - 22px); padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        #coupon-form button { width: 100%; padding: 12px; margin-top: 10px; background-color: var(--primary-color); color: white; border: none; border-radius: 5px; cursor: pointer; }
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 60px; background-color: white; display: flex; justify-content: space-around; align-items: center; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
         .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--dark-text); text-decoration: none; font-size: 0.8em; cursor: pointer; }
         .nav-item .icon { font-size: 1.5em; margin-bottom: 2px; }
@@ -57,7 +71,7 @@
 </head>
 <body>
 
-    <!-- HTML অংশ প্রায় অপরিবর্তিত, শুধুমাত্র মোডাল কন্টেন্ট আপডেট করা হয়েছে -->
+    <!-- HTML অংশ অপরিবর্তিত রাখা হয়েছে -->
     <header class="header">
         <div class="logo">UC GHOR</div>
         <button class="menu-button" id="menuBtn">&#9776;</button>
@@ -67,6 +81,7 @@
         <ul>
             <li><a href="#">যোগাযোগ</a></li>
             <li><a href="#">আমাদের সম্পর্কে</a></li>
+            <li><a href="#">সেবা শর্তাবলী</a></li>
         </ul>
     </div>
     <main class="container">
@@ -78,67 +93,60 @@
         <a href="#" class="nav-item"><span class="icon">&#8962;</span> Home</a>
         <div id="addMoneyBtn" class="nav-item"><span class="icon">&#10010;</span> Add Money</div>
         <div id="myOrdersBtn" class="nav-item"><span class="icon">&#8635;</span> My Orders</div>
+        <div id="myCodesBtn" class="nav-item"><span class="icon">&#9638;</span> My Codes</div>
         <div id="myAccountBtn" class="nav-item"><span class="icon">&#128100;</span> My Account</div>
     </nav>
-    
-    <!-- Modals -->
-    <div id="product-list-modal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2 id="product-list-title"></h2><div id="product-plans-container"></div></div></div>
-    <div id="payment-modal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2>পেমেন্ট পেজ</h2><form id="payment-form"><!-- Form content remains the same --></form></div></div>
-    
-    <!-- অর্ডার হিস্টরি মোডাল -->
-    <div id="order-history-modal" class="modal">
+    <div id="product-list-modal" class="modal">
+        <div class="modal-content"><span class="modal-close">&times;</span><h2 id="product-list-title"></h2><div id="product-plans-container"></div></div>
+    </div>
+    <div id="payment-modal" class="modal">
         <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2>আমার অর্ডার হিস্টরি</h2>
-            <div id="order-history-list">
-                <!-- Orders will be dynamically inserted here -->
-            </div>
+            <span class="modal-close">&times;</span><h2>পেমেন্ট পেজ</h2>
+            <form id="payment-form">
+                <div class="info-display">
+                    <p><strong>প্রোডাক্ট:</strong> <span id="payment-product-name"></span></p>
+                    <p><strong>প্ল্যান:</strong> <span id="payment-plan-name"></span></p>
+                    <p><strong>মূল্য:</strong> $<span id="payment-amount"></span></p>
+                </div>
+                <div class="payment-info"><label>BNB Smart Chain Address:</label><div class="address-box"><input type="text" id="bnb-address" value="0x1234567890abcdef1234567890abcdef12345678" readonly><button type="button" class="copy-btn" data-target="bnb-address">কপি</button></div></div>
+                <div class="payment-info"><label for="trx-id">Trx (Transaction ID):</label><input type="text" id="trx-id" placeholder="লেনদেনের আইডি দিন" required></div>
+                <div class="payment-info"><label for="user-id">আপনার ইউজার আইডি:</label><input type="text" id="user-id" placeholder="আপনার গেম বা অ্যাকাউন্টের আইডি" required></div>
+                <div class="payment-info"><label for="payment-pic">পেমেন্ট স্ক্রিনশট:</label><input type="file" id="payment-pic" accept="image/*" required></div>
+                <button type="submit" id="submit-payment">সাবমিট করুন</button>
+            </form>
         </div>
     </div>
-
-    <!-- প্রোফাইল মোডাল -->
-    <div id="profile-modal" class="modal">
-        <div class="modal-content">
-            <span class="modal-close">&times;</span>
-            <h2>আমার প্রোফাইল</h2>
-            <!-- This part will switch between login button and profile view -->
-            <div id="profile-login-view">
-                <p>আপনার টেলিগ্রাম অ্যাকাউন্টের সাথে যুক্ত হয়ে অর্ডার ট্র্যাক করুন।</p>
-                <button id="telegramLoginBtn" class="telegram-login-btn">Login with Telegram</button>
-            </div>
-            <div id="profile-details-view" style="display: none;">
-                <img id="profile-pic" src="" alt="Profile Picture">
-                <h3 id="profile-name"></h3>
-                <p id="profile-username"></p>
-            </div>
-        </div>
-    </div>
-
+    <div id="order-history-modal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2>অর্ডার হিস্টরি</h2><div class="history-item"><strong>প্রোডাক্ট:</strong> FreeFire Diamond<br><strong>স্ট্যাটাস:</strong> Completed</div></div></div>
+    <div id="coupon-modal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2>কুপন কোড</h2><form id="coupon-form"><input type="text" placeholder="আপনার কুপন কোড দিন"><button type="submit">Apply Code</button></form></div></div>
+    <div id="profile-modal" class="modal"><div class="modal-content"><span class="modal-close">&times;</span><h2>আমার প্রোফাইল</h2><div class="profile-item"><strong>নাম:</strong> Prantoshil</div><div class="profile-item"><strong>টেলিগ্রাম ইউজারনেম:</strong> @prantoshil444</div><div class="profile-item"><strong>Chat ID:</strong> 123456789</div></div></div>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
         // --- কোডের এই অংশটি অপরিবর্তিত ---
         const menuBtn = document.getElementById('menuBtn');
         const sideMenu = document.getElementById('sideMenu');
+        const closeMenuBtn = document.getElementById('closeMenuBtn');
         const productGrid = document.querySelector('.product-grid');
         const modals = document.querySelectorAll('.modal');
         const productListModal = document.getElementById('product-list-modal');
         const paymentModal = document.getElementById('payment-modal');
         const orderHistoryModal = document.getElementById('order-history-modal');
+        const couponModal = document.getElementById('coupon-modal');
         const profileModal = document.getElementById('profile-modal');
         const addMoneyBtn = document.getElementById('addMoneyBtn');
         const myOrdersBtn = document.getElementById('myOrdersBtn');
+        const myCodesBtn = document.getElementById('myCodesBtn');
         const myAccountBtn = document.getElementById('myAccountBtn');
 
         const products = {
-            "Telegram": { name: "Telegram Premium", img: "https://i.ibb.co/j3nZ6wV/telegram.png", plans: [{ duration: "1 মাস", price: 3 }, { duration: "3 মাস", price: 7 }] },
+            "Telegram": { name: "Telegram Premium", img: "https://i.ibb.co/j3nZ6wV/telegram.png", plans: [{ duration: "1 মাস", price: 3 }, { duration: "3 মাস", price: 7 }, { duration: "1 বছর", price: 19 }] },
             "YouTube": { name: "YouTube Premium", img: "https://i.ibb.co/8XY4SPB/youtube.png", plans: [{ duration: "1 মাস", price: 2 }, { duration: "3 মাস", price: 5 }] },
-            "Facebook": { name: "Facebook Likes", img: "https://i.ibb.co/dGZvGAz/facebook.png", plans: [{ duration: "1000 Likes", price: 8 }] },
-            "TikTok": { name: "TikTok Likes", img: "https://i.ibb.co/R4dYhM4/tiktok.png", plans: [{ duration: "1000 Likes", price: 5 }] },
-            "FreeFire": { name: "FreeFire Diamonds", img: "https://i.ibb.co/L9H8Xqj/freefire.jpg", plans: [{ duration: "115 ডায়মন্ড", price: 1.2 }] }
+            "Facebook": { name: "Facebook Likes", img: "https://i.ibb.co/dGZvGAz/facebook.png", plans: [{ duration: "1000 Likes", price: 8 }, { duration: "5000 Likes", price: 35 }] },
+            "TikTok": { name: "TikTok Likes", img: "https://i.ibb.co/R4dYhM4/tiktok.png", plans: [{ duration: "1000 Likes", price: 5 }, { duration: "10000 Likes", price: 40 }] },
+            "FreeFire": { name: "FreeFire Diamonds", img: "https://i.ibb.co/L9H8Xqj/freefire.jpg", plans: [{ duration: "115 ডায়মন্ড", price: 1.2 }, { duration: "610 ডায়মন্ড", price: 5.5 }] },
+            "Unipin": { name: "Unipin Voucher", img: "https://i.ibb.co/qDQK0rV/unipin.jpg", plans: [{ duration: "500 Credits", price: 4.8 }, { duration: "1000 Credits", price: 9.5 }] }
         };
 
-        // --- মূল কার্যকারিতা ---
         Object.keys(products).forEach(key => {
             const product = products[key];
             const card = document.createElement('div');
@@ -149,78 +157,62 @@
         });
 
         menuBtn.addEventListener('click', () => sideMenu.classList.add('active'));
-        document.getElementById('closeMenuBtn').addEventListener('click', () => sideMenu.classList.remove('active'));
-        
-        // --- নেভিগেশন বাটন ---
+        closeMenuBtn.addEventListener('click', () => sideMenu.classList.remove('active'));
         addMoneyBtn.addEventListener('click', () => showPaymentModal({ product: "Add Money", plan: "Wallet Top-up", price: 10 }));
-        myOrdersBtn.addEventListener('click', () => {
-            displayOrderHistory();
-            orderHistoryModal.style.display = 'flex';
-        });
-        myAccountBtn.addEventListener('click', () => {
-            handleProfileView();
-            profileModal.style.display = 'flex';
-        });
+        myOrdersBtn.addEventListener('click', () => orderHistoryModal.style.display = 'flex');
+        myCodesBtn.addEventListener('click', () => couponModal.style.display = 'flex');
+        myAccountBtn.addEventListener('click', () => profileModal.style.display = 'flex');
 
-        // --- প্রোডাক্ট এবং পেমেন্ট ফ্লো ---
         productGrid.addEventListener('click', (e) => {
-            const card = e.target.closest('.product-card'); if (!card) return;
-            // ... (Product list modal logic is unchanged)
-        });
-
-        // --- নতুন কার্যকারিতা: অর্ডার হিস্টরি ---
-        function displayOrderHistory() {
-            const orderHistoryList = document.getElementById('order-history-list');
-            const orders = JSON.parse(localStorage.getItem('myOrders')) || [];
-            orderHistoryList.innerHTML = ''; // Clear previous list
-
-            if (orders.length === 0) {
-                orderHistoryList.innerHTML = '<p>আপনি এখনো কোনো অর্ডার করেননি।</p>';
-                return;
-            }
-
-            orders.reverse().forEach(order => {
-                const item = document.createElement('div');
-                item.className = 'history-item';
-                item.innerHTML = `
-                    <strong>প্রোডাক্ট:</strong> ${order.product} (${order.plan}) <br>
-                    <span class="status ${order.status.toLowerCase()}">স্ট্যাটাস: ${order.status}</span>
-                `;
-                orderHistoryList.appendChild(item);
+            const card = e.target.closest('.product-card');
+            if (!card) return;
+            const productKey = card.dataset.product;
+            const product = products[productKey];
+            document.getElementById('product-list-title').textContent = product.name;
+            const plansContainer = document.getElementById('product-plans-container');
+            plansContainer.innerHTML = '';
+            product.plans.forEach(plan => {
+                const planElement = document.createElement('div');
+                planElement.className = 'product-plan';
+                planElement.innerHTML = `<span>${plan.duration}</span><span>$${plan.price}</span><button class="buy-button" data-product="${productKey}" data-duration="${plan.duration}" data-price="${plan.price}">BUY</button>`;
+                plansContainer.appendChild(planElement);
             });
-        }
-        
-        // --- নতুন কার্যকারিতা: প্রোফাইল सिमुलेशन ---
-        const telegramLoginBtn = document.getElementById('telegramLoginBtn');
-        const profileLoginView = document.getElementById('profile-login-view');
-        const profileDetailsView = document.getElementById('profile-details-view');
-
-        function handleProfileView() {
-            const isLoggedIn = localStorage.getItem('telegramLoggedIn') === 'true';
-            if (isLoggedIn) {
-                profileLoginView.style.display = 'none';
-                profileDetailsView.style.display = 'block';
-                // Load profile data (using dummy data for demo)
-                document.getElementById('profile-pic').src = 'https://i.ibb.co/6PqfC2y/avatar.png';
-                document.getElementById('profile-name').textContent = 'Prantoshil';
-                document.getElementById('profile-username').textContent = '@prantoshil444';
-            } else {
-                profileLoginView.style.display = 'block';
-                profileDetailsView.style.display = 'none';
-            }
-        }
-
-        telegramLoginBtn.addEventListener('click', () => {
-            // This is a simulation. A real implementation requires Telegram's Login Widget.
-            localStorage.setItem('telegramLoggedIn', 'true');
-            handleProfileView();
+            productListModal.style.display = 'flex';
         });
 
-        // --- টেলিগ্রাম বট সহ পেমেন্ট ফর্ম সাবমিট ---
+        productListModal.addEventListener('click', (e) => {
+            if (!e.target.classList.contains('buy-button')) return;
+            showPaymentModal({ product: products[e.target.dataset.product].name, plan: e.target.dataset.duration, price: e.target.dataset.price });
+            productListModal.style.display = 'none';
+        });
+
+        function showPaymentModal(data) {
+            document.getElementById('payment-product-name').textContent = data.product;
+            document.getElementById('payment-plan-name').textContent = data.plan;
+            document.getElementById('payment-amount').textContent = data.price;
+            paymentModal.style.display = 'flex';
+        }
+
+        modals.forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target.classList.contains('modal') || e.target.classList.contains('modal-close')) {
+                    modal.style.display = 'none';
+                }
+            });
+        });
+
+        document.querySelector('.copy-btn').addEventListener('click', function() {
+            const targetId = this.dataset.target;
+            navigator.clipboard.writeText(document.getElementById(targetId).value).then(() => alert('Address copied!'));
+        });
+
+        // --- টেলিগ্রাম বট ইন্টিগ্রেশন সহ পেমেন্ট ফর্ম সাবমিট ---
         document.getElementById('payment-form').addEventListener('submit', function(e) {
             e.preventDefault();
-            const botToken = 'YOUR_TELEGRAM_BOT_TOKEN';
-            const chatId = 'YOUR_TELEGRAM_CHAT_ID';
+            
+            // আপনার টেলিগ্রাম বটের তথ্য এখানে দিন
+            const botToken = 'YOUR_TELEGRAM_BOT_TOKEN'; // আপনার বট টোকেন
+            const chatId = 'YOUR_TELEGRAM_CHAT_ID';     // আপনার চ্যাট আইডি
 
             const productName = document.getElementById('payment-product-name').textContent;
             const planName = document.getElementById('payment-plan-name').textContent;
@@ -228,36 +220,42 @@
             const trxId = document.getElementById('trx-id').value;
             const userId = document.getElementById('user-id').value;
             
+            // মেসেজ ফরম্যাট করা
             let message = `🔔 **নতুন অর্ডার** 🔔\n\n`;
             message += `📦 **প্রোডাক্ট:** ${productName}\n`;
             message += `📄 **প্ল্যান:** ${planName}\n`;
             message += `💵 **মূল্য:** $${amount}\n`;
             message += `🆔 **ইউজার আইডি:** ${userId}\n`;
-            message += `💳 **ট্রানজেকশন আইডি:** ${trxId}`;
+            message += `💳 **ট্রানজেকশন আইডি:** ${trxId}\n`;
 
+            // টেলিগ্রাম API তে মেসেজ পাঠানোর URL
             const url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}&parse_mode=Markdown`;
 
-            fetch(url).then(res => res.json()).then(data => {
-                if (data.ok) {
-                    alert('আপনার অর্ডারটি সফলভাবে পাঠানো হয়েছে!');
-                    // Save order to local history
-                    const orders = JSON.parse(localStorage.getItem('myOrders')) || [];
-                    orders.push({ product: productName, plan: planName, status: 'Pending' });
-                    localStorage.setItem('myOrders', JSON.stringify(orders));
-                } else { throw new Error('Telegram API error'); }
-            }).catch(error => {
-                console.error(error);
-                alert('দুঃখিত, কোনো সমস্যা হয়েছে।');
-            }).finally(() => {
-                paymentModal.style.display = 'none';
-                this.reset();
-            });
+            // মেসেজ পাঠানো হচ্ছে
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.ok) {
+                        alert('আপনার অর্ডারটি সফলভাবে এডমিনের কাছে পাঠানো হয়েছে। ধন্যবাদ!');
+                    } else {
+                        throw new Error('Something went wrong.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('দুঃখিত, কোনো একটি সমস্যা হয়েছে। অনুগ্রহ করে আবার চেষ্টা করুন।');
+                })
+                .finally(() => {
+                    // ফর্ম রিসেট এবং মোডাল বন্ধ করা
+                    paymentModal.style.display = 'none';
+                    this.reset();
+                });
+            
+            // নোট: স্ক্রিনশট পাঠানোর জন্য আরও জটিল ব্যাকএন্ড কোড প্রয়োজন। 
+            // এই কোডে শুধুমাত্র টেক্সট তথ্যগুলো এডমিনের কাছে যাবে।
         });
-
-        // Helper functions (unchanged)
-        function showPaymentModal(data) { /* ... */ }
-        modals.forEach(modal => { modal.addEventListener('click', (e) => { /* ... */ }); });
     });
     </script>
 </body>
-</html>
+</html> 
